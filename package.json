@@ -46,6 +46,7 @@
     "serialize-javascript": "^3.1.0",
     "style-loader": "^1.0.0",
     "svelte": "^3.19.1",
+    "tiddlywiki": "^5.1.22",
     "uglifyjs-webpack-plugin": "git+https://github.com/Real-Currents/uglifyjs-webpack-plugin.git#real/currents",
     "url-loader": "^2.1.0",
     "webpack": "^5.4.0",
@@ -58,7 +59,9 @@
     "natives": "1.1.6"
   },
   "scripts": {
-    "build": "rollup -c",
+    "build": "npm run build:_quest",
+    "build:_quest":  "node_modules/.bin/tiddlywiki --load static/start-quest.html --savewikifolder api/quest/server && cp static/tiddlywiki.info api/quest/server",
+    "build:_rollup": "rollup -c",
     "dev": "rollup -c -w",
     "lint": "eslint src",
     "prebuild": "rimraf dist",

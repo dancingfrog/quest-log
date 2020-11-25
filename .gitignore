@@ -8,5 +8,6 @@ blogdown
 dist
 node_modules
 public
+server
 Videos
 .Rproj.user
