@@ -53,6 +53,7 @@
 
 		return () => cancelAnimationFrame(frame);
 	});
+
 </script>
 
 <style>

@@ -2,6 +2,7 @@ import './styles/global.css';
 import App from './apps/App.svelte';
 import GLApp from './apps/GLApp.svelte';
 import VizRApp from './apps/VizRApp.svelte';
+import QuestLogApp from './apps/QuestLogApp.svelte';
 import TechApp from './apps/TechApp.svelte';
 
 const appId = 'svelte-app';
@@ -16,6 +17,21 @@ export default ( // Check if app id exists in DOM
         props: {
             greeting:
 `Hooray 🎉 - you've built this with <a href='https://github.com/dancingfrog/sveltr' target='_blank'>Sveltr</a>!`
+        }
+    }) : {};
+
+
+const questAppId = 'quest-log-app';
+const questAppElement = document.getElementById(questAppId);
+export const questApp = (
+    questAppElement !== null &&
+    (questAppElement.constructor.name === 'HTMLElement' ||
+        questAppElement.constructor.name === 'HTMLDivElement')
+    ) ?
+    new QuestLogApp({
+        target: questAppElement,
+        props: {
+            title: '🦊 Welcome to QuestLog!'
         }
     }) : {};
 

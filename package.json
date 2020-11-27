@@ -24,6 +24,12 @@
     "fancy-log": "^1.3.2",
     "file-loader": "^4.1.0",
     "imports-loader": "^0.8.0",
+    "koa": "^2.13.0",
+    "koa-better-http-proxy": "^0.2.5",
+    "koa-body": "^4.2.0",
+    "koa-proxy": "^1.0.0-alpha.3",
+    "koa-send": "^5.0.1",
+    "koa-static": "^5.0.0",
     "mini-css-extract-plugin": "^0.9.0",
     "node-sass": "^4.13.1",
     "npm-run-all": "^4.1.5",
@@ -59,13 +65,15 @@
     "natives": "1.1.6"
   },
   "scripts": {
-    "build": "npm run build:_quest",
-    "build:_quest":  "node_modules/.bin/tiddlywiki --load static/start-quest.html --savewikifolder api/quest/server && cp static/tiddlywiki.info api/quest/server",
+    "build": "npm run build:_quest && npm run build:_rollup",
+    "build:_quest": "cp static/tiddlywiki.info api/quest/server",
     "build:_rollup": "rollup -c",
     "dev": "rollup -c -w",
     "lint": "eslint src",
+    "postinstall": "node_modules/.bin/tiddlywiki --load static/start-quest.html --savewikifolder api/quest/server",
     "prebuild": "rimraf dist",
-    "start": "Rscript src/start.R; echo 'servr has stopped'",
+    "start": "cd api && func host start",
+    "start:_blogdown": "Rscript src/start.R; echo 'servr has stopped'",
     "start:dev": "rollup -c -w"
   }
 }
