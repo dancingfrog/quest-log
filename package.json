@@ -74,6 +74,6 @@
     "prebuild": "rimraf dist",
     "start": "cd api && func host start",
     "start:_blogdown": "Rscript src/start.R; echo 'servr has stopped'",
-    "start:dev": "rollup -c -w"
+    "start:dev": "npm run build:_quest && rollup -c -w"
   }
 }

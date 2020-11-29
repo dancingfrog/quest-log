@@ -18,7 +18,10 @@
 
 </script>
 
-<h3>{title}</h3>
+<style>
+</style>
+
+<h1>{title}</h1>
 
 <form id="myForm" method="POST" action="/api/quest">
 	<input name="user" placeholder="username" bind:value="{user}" /><br />

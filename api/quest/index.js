@@ -32,7 +32,7 @@ async function basicAuth (req) {
                 username === "john" ||
                 username === "hannah" ||
                 username === "devon" ||
-                username === "autumn" ||
+                username === "autum" ||
                 username === "jasper" ||
                 username === "dave"
             )

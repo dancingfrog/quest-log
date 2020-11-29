@@ -1,8 +1,7 @@
 @import url("imports/reset.css");
 
 html {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
-    'Droid Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -80,6 +79,27 @@ button:focus {
     width: 100%;
 }
 
+main {
+    color: #4e432f;
+    background-color: #f4d7a3;
+    fill: #4e432f;
+    height: 100%;
+    word-wrap: break-word;
+}
+
+main * h1 {
+    font-weight: 300;
+    font-size: 2.35em;
+    line-height: 1.2em;
+    color: #715e3e;
+    margin: 0;
+}
+
+main * h1, main * h2, main * h3 {
+    font-family: "Nimbus Sans", "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    color: firebrick;
+}
+
 pre {
     width: 72.5%;
     margin-left: auto;
@@ -96,6 +116,7 @@ pre {
 }
 
 pre code {
+    font-family: "SFMono-Regular", Consolas, 'Fira Sans', "Liberation Mono", Menlo, Courier, monospace;
     max-width: 1024px;
     word-wrap: break-word;
 }
