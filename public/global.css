@@ -18,7 +18,7 @@ body {
 }
 
 a {
-    color: pink;
+    color: #937e59;
     text-decoration: none;
 }
 
@@ -96,7 +96,7 @@ article * h1 {
 }
 
 article * h1, article * h2, article * h3 {
-    font-family: "Nimbus Sans", "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-family: Cinzel, "Nimbus Sans", "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     color: firebrick;
 }
 
@@ -112,7 +112,8 @@ pre {
     white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
     white-space: -o-pre-wrap;    /* Opera 7 */
     word-wrap: break-word;       /* Internet Explorer 5.5+ */
-    background: rgba(66, 66, 66, 0.5);
+    background-color: #e5f8fd;
+    border: 1px solid #e5f8fd;
 }
 
 pre code {
