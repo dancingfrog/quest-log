@@ -63,7 +63,7 @@ module.exports = async function (context, req) {
 
         if (basicAuth(req)) {
             const serverDir = `${__dirname}/quest/server`.replace("/quest/quest", "/quest")
-            const stdout = execSync(`../node_modules/.bin/tiddlywiki ${serverDir} --build index`);
+            const stdout = execSync(`./node_modules/.bin/tiddlywiki ${serverDir} --build index`);
             console.log(`stdout: ${stdout}`);
 
             const data = fs.readFileSync(`${serverDir}/output/index.html`);
