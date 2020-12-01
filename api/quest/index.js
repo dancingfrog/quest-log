@@ -1,7 +1,7 @@
 const { execSync } = require("child_process");
 const fs = require("fs");
 
-async function basicAuth (req) {
+function basicAuth (req) {
     console.log(JSON.stringify(req.body || req.headers));
 
     // check for basic auth header
@@ -58,7 +58,7 @@ module.exports = async function (context, req) {
     };
 
     try {
-        if (await basicAuth(req)) {
+        if (basicAuth(req)) {
             const stdout = execSync(`../node_modules/.bin/tiddlywiki ${__dirname}/server --build index`);
             console.log(`stdout: ${stdout}`);
 
@@ -74,7 +74,10 @@ module.exports = async function (context, req) {
                 headers: {
                     "Content-type": "application/json"
                 },
-                body: `{ "error": "Unauthorized" }`
+                body: JSON.stringify({
+                  "error": "Unauthorized",
+                  "body": req.body
+                })
             };
         }
 
