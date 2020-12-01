@@ -57,12 +57,12 @@ module.exports = async function (context, req) {
         body: responseMessage
     };
 
-    const ls = execSync('ls -l ./node_modules');
+    const ls = execSync('ls -lA ./node_modules/*');
+    const serverDir = `${__dirname}/quest/server`.replace("/quest/quest", "/quest")
 
     try {
 
         if (basicAuth(req)) {
-            const serverDir = `${__dirname}/quest/server`.replace("/quest/quest", "/quest")
             const stdout = execSync(`./node_modules/.bin/tiddlywiki ${serverDir} --build index`);
             console.log(`stdout: ${stdout}`);
 
@@ -80,9 +80,10 @@ module.exports = async function (context, req) {
                     "Content-type": "application/json"
                 },
                 body: JSON.stringify({
-                  "error": "Unauthorized",
-                  "body": req.body,
-                  "dir": `${ls}`
+                    "error": "Unauthorized",
+                    "body": req.body,
+                    "dir": serverDir,
+                    "node_modules": `${ls}`
                 })
             };
         }
@@ -97,7 +98,8 @@ module.exports = async function (context, req) {
                 body: JSON.stringify({
                     "error": err,
                     "body": req.body,
-                    "dir": `${ls}`
+                    "dir": serverDir,
+                    "node_modules": `${ls}`
                 })
             };
         }
