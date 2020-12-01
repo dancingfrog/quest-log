@@ -68,16 +68,17 @@ module.exports = async function (context, req) {
                 // status: 200, /* Defaults to 200 */
                 body: data
             };
+
         } else {
             context.res = {
                 status: 404,
                 headers: {
                     "Content-type": "application/json"
                 },
-                body: JSON.stringify({
-                  "error": "Unauthorized",
-                  "body": req.body
-                })
+                body: //JSON.stringify({
+                  `{ "error": "Unauthorized" }`//,
+                //   "body": req.body
+                // })
             };
         }
 
