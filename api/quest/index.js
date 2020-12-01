@@ -75,10 +75,10 @@ module.exports = async function (context, req) {
                 headers: {
                     "Content-type": "application/json"
                 },
-                body: //JSON.stringify({
-                  `{ "error": "Unauthorized" }`//,
-                //   "body": req.body
-                // })
+                body: JSON.stringify({
+                  "error": "Unauthorized",
+                  "body": req.body
+                })
             };
         }
 
@@ -87,8 +87,12 @@ module.exports = async function (context, req) {
             console.log(`error: ${err.message}`);
             console.log(`current working directory: ${__dirname}`);
             context.res = {
-                status: 404, /* Defaults to 200 */
-                body: JSON.stringify(err)
+                status: 404,
+                // body: JSON.stringify(err)
+                body: JSON.stringify({
+                    "error": err,
+                    "body": req.body
+                })
             };
         }
 
