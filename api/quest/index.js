@@ -10,14 +10,17 @@ function basicAuth (req) {
         (!req.body.match(/authorization/) || req.body.indexOf('Basic') === -1)
     ) {
         return false;
+
     } else {
 
-        const authorization = req.headers.authorization ||
-            req.body.Authorization ||
-            decodeURI(req.body).replace('+', ' ').replace('%3D', '=')
-                .match(/authorization=(Basic \w+)/)[1];
+        const authorization = (req.headers.authorization || req.body.Authorization || decodeURI(req.body))
+            .replace('+', ' ')
+            .replace('%3D', '=')
+            .match(/authorization=(Basic \w+)/)[1];
 
         console.log(authorization);
+
+        req.body = authorization;
 
         // verify auth credentials
         const base64Credentials = authorization.split(' ')[1];
