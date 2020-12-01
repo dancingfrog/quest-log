@@ -5,18 +5,15 @@ function basicAuth (req) {
     console.log(JSON.stringify(req.body || req.headers));
 
     // check for basic auth header
-    if ((!req.headers.authorization || req.headers.authorization.indexOf('Basic') === -1) &&
-        (!req.body.Authorization || req.body.Authorization.indexOf('Basic') === -1) &&
-        (!req.body.match(/authorization/) || req.body.indexOf('Basic') === -1)
+    if ((!!req.headers.authorization && req.headers.authorization.indexOf('Basic') > -1) ||
+        (!!req.body.Authorization && req.body.Authorization.indexOf('Basic') > -1) ||
+        (!!req.body.match(/authorization/) && req.body.indexOf('Basic') > -1)
     ) {
-        return false;
-
-    } else {
 
         const authorization = (req.headers.authorization || req.body.Authorization || decodeURI(req.body))
-            .replace('+', ' ')
-            .replace('%3D', '=')
-            .match(/authorization=(Basic \w+)/)[1];
+            .replace(/\+/g, ' ')
+            .replace(/%3D/g, '=')
+            .match(/authorization=(Basic .+$)/)[1];
 
         console.log(authorization);
 
