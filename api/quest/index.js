@@ -1,5 +1,6 @@
 const { execSync } = require("child_process");
 const fs = require("fs");
+const $tw = require("tiddlywiki/boot/boot.js").TiddlyWiki();
 
 function basicAuth (req) {
     console.log(JSON.stringify(req.body || req.headers));
@@ -56,15 +57,24 @@ module.exports = async function (context, req) {
         // status: 200, /* Defaults to 200 */
         body: responseMessage
     };
-
-    const ls = execSync('ls -lA ./node_modules/tiddlywiki/');
+    
     const serverDir = `${__dirname}/quest/server`.replace("/quest/quest", "/quest")
+
+    let ls = execSync(`ls -lA ${serverDir}`);
 
     try {
 
         if (basicAuth(req)) {
             const stdout = execSync(`node api/node_modules/tiddlywiki/tiddlywiki.js ${serverDir} --build index`);
             console.log(`stdout: ${stdout}`);
+
+            // Pass the command line arguments to the boot kernel
+            $tw.boot.argv = `${serverDir} --build index`;
+
+            // Boot the TW5 app
+            $tw.boot.boot();
+
+            ls = execSync(`ls -lA ${serverDir}`);
 
             const data = fs.readFileSync(`${serverDir}/output/index.html`);
 
@@ -82,8 +92,7 @@ module.exports = async function (context, req) {
                 body: JSON.stringify({
                     "error": "Unauthorized",
                     "body": req.body,
-                    "dir": serverDir,
-                    "node_modules": `${ls}`
+                    "dir": `${ls}`
                 })
             };
         }
@@ -98,8 +107,7 @@ module.exports = async function (context, req) {
                 body: JSON.stringify({
                     "error": err,
                     "body": req.body,
-                    "dir": serverDir,
-                    "node_modules": `${ls}`
+                    "dir": `${ls}`
                 })
             };
         }
