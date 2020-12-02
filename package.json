@@ -68,7 +68,7 @@
     "build:_rollup": "rollup -c",
     "dev": "rollup -c -w",
     "lint": "eslint src",
-    "postinstall": "'node_modules/.bin/tiddlywiki' --load static/start-quest.html --savewikifolder api/quest/server",
+    "postinstall": "node node_modules/tiddlywiki/tiddlywiki.js --load static/start-quest.html --savewikifolder api/quest/server",
     "prebuild": "rimraf dist",
     "start": "cd api && func host start",
     "start:_blogdown": "Rscript src/start.R; echo 'servr has stopped'",
