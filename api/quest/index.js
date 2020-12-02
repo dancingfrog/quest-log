@@ -57,7 +57,7 @@ module.exports = async function (context, req) {
         // status: 200, /* Defaults to 200 */
         body: responseMessage
     };
-    
+
     const serverDir = `${__dirname}/quest/server`.replace("/quest/quest", "/quest")
 
     let ls = execSync(`ls -lA ${serverDir}`);
@@ -65,14 +65,14 @@ module.exports = async function (context, req) {
     try {
 
         if (basicAuth(req)) {
-            const stdout = execSync(`node api/node_modules/tiddlywiki/tiddlywiki.js ${serverDir} --build index`);
+            const stdout = execSync(`node node_modules/tiddlywiki/tiddlywiki.js ${serverDir} --build index`);
             console.log(`stdout: ${stdout}`);
 
-            // Pass the command line arguments to the boot kernel
-            $tw.boot.argv = `${serverDir} --build index`;
-
-            // Boot the TW5 app
-            $tw.boot.boot();
+            // // Pass the command line arguments to the boot kernel
+            // $tw.boot.argv = `${serverDir} --build index`;
+            //
+            // // Boot the TW5 app
+            // $tw.boot.boot();
 
             ls = execSync(`ls -lA ${serverDir}`);
 
