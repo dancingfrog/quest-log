@@ -57,13 +57,13 @@ module.exports = async function (context, req) {
         body: responseMessage
     };
 
-    const ls = execSync('ls -lA ./node_modules/*');
+    const ls = execSync('ls -lA ./node_modules/tiddlywiki/');
     const serverDir = `${__dirname}/quest/server`.replace("/quest/quest", "/quest")
 
     try {
 
         if (basicAuth(req)) {
-            const stdout = execSync(`./node_modules/.bin/tiddlywiki ${serverDir} --build index`);
+            const stdout = execSync(`node api/node_modules/tiddlywiki/tiddlywiki.js ${serverDir} --build index`);
             console.log(`stdout: ${stdout}`);
 
             const data = fs.readFileSync(`${serverDir}/output/index.html`);
