@@ -58,22 +58,21 @@ module.exports = async function (context, req) {
         body: responseMessage
     };
 
-    const serverDir = `${__dirname}/quest/server`.replace("/quest/quest", "/quest")
+    const serverDir = `${__dirname}/quest/server`.replace("quest/quest", "quest")
 
     let ls = '';
-    let stdout = '';
 
     try {
 
         if (basicAuth(req)) {
-            const stdout = execSync(`node node_modules/tiddlywiki/tiddlywiki.js ${serverDir} --build index`);
-            console.log(`stdout: ${stdout}`);
+            // const stdout = execSync(`node node_modules/tiddlywiki/tiddlywiki.js ${serverDir} --build index`);
+            // console.log(`stdout: ${stdout}`);
 
-            // // Pass the command line arguments to the boot kernel
-            // $tw.boot.argv = `${serverDir} --build index`;
-            //
-            // // Boot the TW5 app
-            // $tw.boot.boot();
+            // Pass the command line arguments to the boot kernel
+            $tw.boot.argv = [ "serverDir", "--build", "index" ];
+
+            // Boot the TW5 app
+            $tw.boot.boot();
 
             ls = execSync(`ls -lA ${serverDir}`);
 
@@ -100,15 +99,15 @@ module.exports = async function (context, req) {
     } catch (err) {
         if (typeof err === 'object') {
             console.log(`error: ${err.message}`);
-            console.log(`current working directory: ${__dirname}`);
+
             context.res = {
                 status: 404,
                 // body: JSON.stringify(err)
                 body: JSON.stringify({
                     "error": err,
                     "body": req.body,
-                    "dir": `${ls}`,
-                    "stdout": `${stdout}`
+                    "dir": serverDir,
+                    "ls": `${ls}`,
                 })
             };
         }
