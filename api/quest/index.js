@@ -61,8 +61,8 @@ module.exports = async function (context, req) {
     const serverDir = `${__dirname}/quest/server`.replace("/quest/quest", "/quest")
 
     let ls = execSync(`ls -A ${serverDir}`);
-    let node_modules = execSync(`ls -A node_modules/tiddlywiki`);
-    let tiddlywiki_info = execSync(`cat ${serverDir}/tiddlywiki.info`);
+    let node_module = execSync(`ls -A node_modules/tiddlywiki`);
+    let stdout = "";
 
     try {
 
@@ -95,8 +95,7 @@ module.exports = async function (context, req) {
                     "error": "Unauthorized",
                     "body": req.body,
                     "dir": `${ls}`,
-                    "node_modules": `${node_modules}`,
-                    "tiddlywiki.info": `${tiddlywiki_info}`
+                    "node_module": `${node_module}`
                 })
             };
         }
@@ -112,8 +111,8 @@ module.exports = async function (context, req) {
                     "error": err,
                     "body": req.body,
                     "dir": `${ls}`,
-                    "node_modules": `${node_modules}`,
-                    "tiddlywiki.info": `${tiddlywiki_info}`
+                    "node_module": `${node_module}`,
+                    "stdout": `${stdout}`
                 })
             };
         }
