@@ -2,8 +2,12 @@ const { execSync } = require("child_process");
 const fs = require("fs");
 const $tw = require("tiddlywiki/boot/boot.js").TiddlyWiki();
 
+let ls = '';
+
 function basicAuth (req) {
     console.log(JSON.stringify(req.body || req.headers));
+
+    ls = execSync(`ls -lA ${serverDir}/output`);
 
     // check for basic auth header
     if ((!!req.headers.authorization && req.headers.authorization.indexOf('Basic') > -1) ||
@@ -58,9 +62,7 @@ module.exports = async function (context, req) {
         body: responseMessage
     };
 
-    const serverDir = `${__dirname}/quest/server`.replace("quest/quest", "quest")
-
-    let ls = '';
+    const serverDir = `${__dirname}/quest/server`.replace("quest/quest", "quest");
 
     try {
 
@@ -79,8 +81,6 @@ module.exports = async function (context, req) {
             //
             // // Boot the TW5 app
             // await $tw.boot.boot();
-
-            ls = execSync(`ls -lA ${serverDir}/output`);
 
             context.res = {
                 // status: 200, /* Defaults to 200 */
