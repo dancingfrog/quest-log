@@ -64,11 +64,11 @@ module.exports = async function (context, req) {
 
     try {
 
+        ls = execSync(`ls -lA ${serverDir}`);
+
         if (basicAuth(req)) {
             // const stdout = execSync(`node node_modules/tiddlywiki/tiddlywiki.js ${serverDir} --build index`);
             // console.log(`stdout: ${stdout}`);
-
-            ls = execSync(`ls -lA ${serverDir}`);
 
             // Pass the command line arguments to the boot kernel
             $tw.boot.argv = [
@@ -82,7 +82,7 @@ module.exports = async function (context, req) {
 
             const data = fs.readFileSync(`${serverDir}/output/index.html`);
 
-            ls = execSync(`ls -lA ${serverDir}/output`);
+            // ls = execSync(`ls -lA ${serverDir}/output`);
 
             context.res = {
                 // status: 200, /* Defaults to 200 */
@@ -114,7 +114,7 @@ module.exports = async function (context, req) {
                     "body": req.body,
                     "dir": serverDir,
                     "ls": `${ls}`,
-                    "$tw": $tw
+                    "tw_boot": $tw.boot
                 })
             };
         }
