@@ -65,8 +65,8 @@ module.exports = async function (context, req) {
     try {
 
         if (basicAuth(req)) {
-            const stdout = execSync(`node node_modules/tiddlywiki/tiddlywiki.js ${serverDir} --build index`);
-            console.log(`stdout: ${stdout}`);
+            // const stdout = execSync(`node node_modules/tiddlywiki/tiddlywiki.js ${serverDir} --build index`);
+            // console.log(`stdout: ${stdout}`);
 
             ls = execSync(`ls -lA ${serverDir}`);
 
