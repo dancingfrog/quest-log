@@ -82,7 +82,7 @@ module.exports = async function (context, req) {
 
             const data = fs.readFileSync(`${serverDir}/output/index.html`);
 
-            // ls = execSync(`ls -lA ${serverDir}/output`);
+            ls = execSync(`ls -lA ${serverDir}/output`);
 
             context.res = {
                 // status: 200, /* Defaults to 200 */
