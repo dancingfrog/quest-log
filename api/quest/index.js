@@ -4,6 +4,8 @@ const $tw = require("tiddlywiki/boot/boot.js").TiddlyWiki();
 
 let ls = '';
 
+const serverDir = `${__dirname}/quest/server`.replace("quest/quest", "quest");
+
 function basicAuth (req) {
     console.log(JSON.stringify(req.body || req.headers));
 
@@ -62,43 +64,26 @@ module.exports = async function (context, req) {
         body: responseMessage
     };
 
-    const serverDir = `${__dirname}/quest/server`.replace("quest/quest", "quest");
+    ls = execSync(`ls -lA ${serverDir}/output`);
 
-    try {
+    if (basicAuth(req)) try {
+        // const stdout = execSync(`node node_modules/tiddlywiki/tiddlywiki.js ${serverDir} --build index`);
+        // console.log(`stdout: ${stdout}`);
 
-        ls = execSync(`ls -lA ${serverDir}`);
+        // // Pass the command line arguments to the boot kernel
+        // $tw.boot.argv = [
+        //     serverDir,
+        //     '--build',
+        //     'index'
+        // ];
+        //
+        // // Boot the TW5 app
+        // await $tw.boot.boot();
 
-        if (basicAuth(req)) {
-            // const stdout = execSync(`node node_modules/tiddlywiki/tiddlywiki.js ${serverDir} --build index`);
-            // console.log(`stdout: ${stdout}`);
-
-            // // Pass the command line arguments to the boot kernel
-            // $tw.boot.argv = [
-            //     serverDir,
-            //     '--build',
-            //     'index'
-            // ];
-            //
-            // // Boot the TW5 app
-            // await $tw.boot.boot();
-
-            context.res = {
-                // status: 200, /* Defaults to 200 */
-                body: fs.readFileSync(`${serverDir}/output/index.html`)
-            };
-
-        } else {
-            context.res = {
-                status: 404,
-                headers: {
-                    "Content-type": "application/json"
-                },
-                body: JSON.stringify({
-                    "error": "Unauthorized",
-                    "body": req.body
-                })
-            };
-        }
+        context.res = {
+            // status: 200, /* Defaults to 200 */
+            body: fs.readFileSync(`${serverDir}/output/index.html`)
+        };
 
     } catch (err) {
         if (typeof err === 'object') {
@@ -117,5 +102,16 @@ module.exports = async function (context, req) {
             };
         }
 
+    } else {
+        context.res = {
+            status: 404,
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify({
+                "error": "Unauthorized",
+                "body": req.body
+            })
+        };
     }
 }
