@@ -19,7 +19,7 @@ function basicAuth (req) {
             (!!req.body.match(/authorization/) && req.body.indexOf('Basic') > -1)
         ) {
 
-            const authorization = (req.headers.authorization || req.body.Authorization || decodeURI(req.body))
+            const authorization = (req.headers.authorization || req.body.Authorization || req.body)
                 .replace(/\+/g, ' ')
                 .replace(/%3D/g, '=')
                 .match(/authorization=(Basic .+$)/)[1];
