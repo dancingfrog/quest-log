@@ -2,6 +2,7 @@ const { execSync } = require("child_process");
 const fs = require("fs");
 const $tw = require("tiddlywiki/boot/boot.js").TiddlyWiki();
 
+let error = {};
 let ls = '';
 
 const serverDir = `${__dirname}/quest/server`.replace("quest/quest", "quest");
@@ -11,42 +12,47 @@ function basicAuth (req) {
 
     ls = execSync(`ls -lA ${serverDir}/output`);
 
-    // check for basic auth header
-    if ((!!req.headers.authorization && req.headers.authorization.indexOf('Basic') > -1) ||
-        (!!req.body.Authorization && req.body.Authorization.indexOf('Basic') > -1) ||
-        (!!req.body.match(/authorization/) && req.body.indexOf('Basic') > -1)
-    ) {
+    try {
+        // check for basic auth header
+        if ((!!req.headers.authorization && req.headers.authorization.indexOf('Basic') > -1) ||
+            (!!req.body.Authorization && req.body.Authorization.indexOf('Basic') > -1) ||
+            (!!req.body.match(/authorization/) && req.body.indexOf('Basic') > -1)
+        ) {
 
-        const authorization = (req.headers.authorization || req.body.Authorization || decodeURI(req.body))
-            .replace(/\+/g, ' ')
-            .replace(/%3D/g, '=')
-            .match(/authorization=(Basic .+$)/)[1];
+            const authorization = (req.headers.authorization || req.body.Authorization || decodeURI(req.body))
+                .replace(/\+/g, ' ')
+                .replace(/%3D/g, '=')
+                .match(/authorization=(Basic .+$)/)[1];
 
-        console.log(authorization);
+            console.log(authorization);
 
-        req.body = authorization;
+            req.body = authorization;
+        }
+        //     // verify auth credentials
+        //     const base64Credentials = authorization.split(' ')[1];
+        //     const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
+        //     const [username, password] = credentials.split(':');
+        //     // const user = await userService.authenticate({ username, password });
+        //     // if (!user) {
+        //     //     return res.status(401).json({ message: 'Invalid Authentication Credentials' });
+        //     // }
+        //
+        //     if (password === "enter" && (
+        //             username === "john" ||
+        //             username === "hannah" ||
+        //             username === "devon" ||
+        //             username === "autum" ||
+        //             username === "jasper" ||
+        //             username === "dave"
+        //         )
+        //     ) {
+        //         return true;
+        //     }
+        // }
+    } catch (e) {
+        error = e;
+        error.message = "Error during check for authorization\n " + (error.message || '');
     }
-    //     // verify auth credentials
-    //     const base64Credentials = authorization.split(' ')[1];
-    //     const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
-    //     const [username, password] = credentials.split(':');
-    //     // const user = await userService.authenticate({ username, password });
-    //     // if (!user) {
-    //     //     return res.status(401).json({ message: 'Invalid Authentication Credentials' });
-    //     // }
-    //
-    //     if (password === "enter" && (
-    //             username === "john" ||
-    //             username === "hannah" ||
-    //             username === "devon" ||
-    //             username === "autum" ||
-    //             username === "jasper" ||
-    //             username === "dave"
-    //         )
-    //     ) {
-    //         return true;
-    //     }
-    // }
 
     return false;
 }
@@ -109,7 +115,7 @@ module.exports = async function (context, req) {
                 "Content-type": "application/json"
             },
             body: JSON.stringify({
-                "error": "Unauthorized",
+                "error": error,
                 "body": req.body
             })
         };
