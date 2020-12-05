@@ -12,20 +12,20 @@ function basicAuth (req) {
     ls = execSync(`ls -lA ${serverDir}/output`);
 
     // check for basic auth header
-    // if ((!!req.headers.authorization && req.headers.authorization.indexOf('Basic') > -1) ||
-    //     (!!req.body.Authorization && req.body.Authorization.indexOf('Basic') > -1) ||
-    //     (!!req.body.match(/authorization/) && req.body.indexOf('Basic') > -1)
-    // ) {
-    //
-    //     const authorization = (req.headers.authorization || req.body.Authorization || decodeURI(req.body))
-    //         .replace(/\+/g, ' ')
-    //         .replace(/%3D/g, '=')
-    //         .match(/authorization=(Basic .+$)/)[1];
-    //
-    //     console.log(authorization);
-    //
-    //     req.body = authorization;
-    //
+    if ((!!req.headers.authorization && req.headers.authorization.indexOf('Basic') > -1) ||
+        (!!req.body.Authorization && req.body.Authorization.indexOf('Basic') > -1) ||
+        (!!req.body.match(/authorization/) && req.body.indexOf('Basic') > -1)
+    ) {
+
+        const authorization = (req.headers.authorization || req.body.Authorization || decodeURI(req.body))
+            .replace(/\+/g, ' ')
+            .replace(/%3D/g, '=')
+            .match(/authorization=(Basic .+$)/)[1];
+
+        console.log(authorization);
+
+        req.body = authorization;
+    }
     //     // verify auth credentials
     //     const base64Credentials = authorization.split(' ')[1];
     //     const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
