@@ -12,7 +12,13 @@ function basicAuth (req) {
 
     ls = execSync(`ls -lA ${serverDir}/output`);
 
+    let errorStep = "";
+
     try {
+        errorStep = "(!!req.headers.authorization && req.headers.authorization.indexOf('Basic') > -1): " + (!!req.headers.authorization && req.headers.authorization.indexOf('Basic') > -1);
+        errorStep = "(!!req.body.Authorization && req.body.Authorization.indexOf('Basic') > -1): " + (!!req.body.Authorization && req.body.Authorization.indexOf('Basic') > -1);
+        errorStep = "(!!req.body.match(/authorization/) && req.body.indexOf('Basic') > -1): " + (!!req.body.match(/authorization/) && req.body.indexOf('Basic') > -1);
+
         // check for basic auth header
         if ((!!req.headers.authorization && req.headers.authorization.indexOf('Basic') > -1) ||
             (!!req.body.Authorization && req.body.Authorization.indexOf('Basic') > -1) ||
@@ -52,7 +58,7 @@ function basicAuth (req) {
 
     } catch (err) {
         error = Object.create({}, (!!err) ? err : {});
-        error.message = "Error during check for authorization\n " + (error.message || '');
+        error.message = "Error during check for authorization\n " + errorStep + "\n " +(error.message || '');
     }
 
     return true;
