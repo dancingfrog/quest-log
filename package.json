@@ -64,7 +64,7 @@
   },
   "scripts": {
     "build": "npm run build:_quest && npm run build:_rollup",
-    "build:_quest": "rm -rf api/quest/server && node node_modules/tiddlywiki/tiddlywiki.js --load static/start-quest.html --savewikifolder api/quest/server && cp static/tiddlywiki.info api/quest/server && node node_modules/tiddlywiki/tiddlywiki.js api/quest/server --build index",
+    "build:_quest": "rm -rf api/quest/server && node node_modules/tiddlywiki/tiddlywiki.js --load static/start-quest.html --savewikifolder api/quest/server && cp static/tiddlywiki.info api/quest/server",
     "build:_rollup": "rollup -c",
     "dev": "rollup -c -w",
     "lint": "eslint src",
