@@ -73,25 +73,38 @@ module.exports = async function (context, req) {
     };
 
     if (basicAuth(req)) try {
-        // const stdout = execSync(`node node_modules/tiddlywiki/tiddlywiki.js ${serverDir} --build index`);
-        // console.log(`stdout: ${stdout}`);
+        const stdout = execSync(`node node_modules/tiddlywiki/tiddlywiki.js ${serverDir} --build index`);
+        console.log(`stdout: ${stdout}`);
 
         // // Pass the command line arguments to the boot kernel
-        $tw.boot.argv = [
-            serverDir,
-            '--build',
-            'index'
-        ];
-
-        // Boot the TW5 app
-        await $tw.boot.boot();
+        // $tw.boot.argv = [
+        //     serverDir,
+        //     '--build',
+        //     'index'
+        // ];
+        //
+        // // Boot the TW5 app
+        // await $tw.boot.boot();
 
         ls = execSync(`ls -lA ${serverDir}/output`);
 
-        context.res = {
-            // status: 200, /* Defaults to 200 */
-            body: fs.readFileSync(`${serverDir}/output/index.html`)
-        };
+        if (fs.existsSync(`${serverDir}/output/index.html`)) {
+            context.res = {
+                // status: 200, /* Defaults to 200 */
+                body: fs.readFileSync(`${serverDir}/output/index.html`)
+            };
+        } else {
+            context.res = {
+                // status: 200, /* Defaults to 200 */
+                body: JSON.stringify({
+                    "error": new Error(`Could not find ${serverDir}/output/index.html`),
+                    "body": req.body,
+                    "dir": serverDir,
+                    "ls": `${ls}`,
+                    "tw_boot": $tw.boot
+                })
+            };
+        }
 
     } catch (err) {
         if (typeof err === 'object') {
