@@ -21,22 +21,20 @@ function basicAuth (req) {
         errorStep = (req.body)
             .replace(/\+/g, ' ')
             .replace(/%3D/g, '=')
-            .match(/authorization=(Basic .+$)/);
-        req.body = errorStep.join("\n ");
-        errorStep = req.body;
+            .match(/authorization=(Basic .+$)/).join("\n ");
+        
+        req.body = (req.headers.authorization || req.body.Authorization || req.body);
 
         // check for basic auth header
-        if ((!!req.headers.authorization && req.headers.authorization.indexOf('Basic') > -1) ||
-            (!!req.body.Authorization && req.body.Authorization.indexOf('Basic') > -1) ||
-            (!!req.body.match(/authorization/) && req.body.indexOf('Basic') > -1)
-        ) {
+        // if ((!!req.headers.authorization && req.headers.authorization.indexOf('Basic') > -1) ||
+        //     (!!req.body.Authorization && req.body.Authorization.indexOf('Basic') > -1) ||
+        //     (!!req.body.match(/authorization/) && req.body.indexOf('Basic') > -1)
+        // ) {
 
             const authorization = (req.headers.authorization || req.body.Authorization || req.body)
                 .replace(/\+/g, ' ')
                 .replace(/%3D/g, '=')
                 .match(/authorization=(Basic .+$)/)[1];
-
-            console.log(authorization);
 
             req.body = authorization;
 
@@ -60,7 +58,7 @@ function basicAuth (req) {
             ) {
                 return true;
             }
-        }
+        // }
 
     } catch (err) {
         error = Object.create({}, (!!err) ? err : {});
