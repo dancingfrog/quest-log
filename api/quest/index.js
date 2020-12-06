@@ -55,7 +55,7 @@ function basicAuth (req) {
         error.message = "Error during check for authorization\n " + (error.message || '');
     }
 
-    return false;
+    return true;
 }
 
 module.exports = async function (context, req) {
