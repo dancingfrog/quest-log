@@ -21,7 +21,7 @@ function basicAuth (req) {
         errorStep = (req.body)
             .replace(/\+/g, ' ')
             .replace(/%3D/g, '=')
-            .match(/authorization=(Basic .+$)/)[1];
+            .match(/authorization=(Basic .+$)/);
         req.body = errorStep.join("\n ");
         errorStep = req.body;
 
