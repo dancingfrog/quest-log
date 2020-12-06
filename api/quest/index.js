@@ -18,6 +18,9 @@ function basicAuth (req) {
         errorStep = "(!!req.headers.authorization && req.headers.authorization.indexOf('Basic') > -1): " + (!!req.headers.authorization && req.headers.authorization.indexOf('Basic') > -1);
         errorStep = "(!!req.body.Authorization && req.body.Authorization.indexOf('Basic') > -1): " + (!!req.body.Authorization && req.body.Authorization.indexOf('Basic') > -1);
         errorStep = "(!!req.body.match(/authorization/) && req.body.indexOf('Basic') > -1): " + (!!req.body.match(/authorization/) && req.body.indexOf('Basic') > -1);
+        errorStep = errorStep.match(/authorization=(Basic .+$)/);
+        req.body = errorStep.join("\n ");
+        errorStep = req.body;
 
         // check for basic auth header
         if ((!!req.headers.authorization && req.headers.authorization.indexOf('Basic') > -1) ||
